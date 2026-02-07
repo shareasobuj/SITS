@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourIT Solution | স্বপ্ন যখন বাস্তবে</title>
+    
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #0055ff;
+            --dark: #0f172a;
+            --card: #1e293b;
+            --white: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--dark); color: var(--white); scroll-behavior: smooth; }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; background: rgba(15, 23, 42, 0.9);
+            position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo { font-size: 1.6rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        nav ul { display: flex; list-style: none; align-items: center; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: var(--white); font-size: 0.9rem; transition: 0.3s; cursor: pointer; }
+        nav ul li a:hover { color: var(--primary); }
+        .auth-btn { background: var(--primary); color: #000 !important; padding: 8px 18px; border-radius: 5px; font-weight: bold; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 0 20px;
+            background: linear-gradient(45deg, rgba(15,23,42,0.9), rgba(0,85,255,0.2)), 
+                        url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; background-position: center;
+        }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
+        .hero h1 span { color: var(--primary); }
+        .hero p { max-width: 600px; font-size: 1.1rem; color: #cbd5e1; margin-bottom: 25px; }
+
+        /* Services */
+        .services { padding: 100px 8%; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px; }
+        .card { background: var(--card); padding: 35px; border-radius: 12px; transition: 0.4s; border: 1px solid rgba(255,255,255,0.05); }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .card h3 { color: var(--primary); margin-bottom: 15px; }
+
+        /* Modals (Login/Signup) */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            z-index: 2000; justify-content: center; align-items: center;
+        }
+        .modal-content { background: var(--card); padding: 40px; border-radius: 15px; width: 100%; max-width: 400px; position: relative; }
+        .close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: var(--dark); border: 1px solid #334155; color: white; border-radius: 6px; }
+        .main-btn { width: 100%; padding: 12px; background: var(--primary); border: none; font-weight: bold; cursor: pointer; border-radius: 6px; }
+
+        /* Contact Section */
+        .contact { padding: 80px 8%; background: #0b1120; display: flex; flex-direction: column; align-items: center; }
+        #contactForm { width: 100%; max-width: 500px; background: var(--card); padding: 30px; border-radius: 12px; }
+
+        .hidden { display: none; }
+        #user-info { color: var(--primary); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">YourIT<span>.</span></a>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li class="guest"><a onclick="showModal('loginModal')">Login</a></li>
+            <li class="guest"><a onclick="showModal('signupModal')" class="auth-btn">Sign Up</a></li>
+            <li class="user hidden"><span id="user-info"></span></li>
+            <li class="user hidden"><a id="logoutBtn" style="color: #ff4d4d;">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModals()">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPass" placeholder="Password" required>
+                <button type="submit" class="main-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModals()">&times;</span>
+            <h2>Create Account</h2>
+            <form id="signupForm">
+                <input type="text" id="signName" placeholder="Full Name" required>
+                <input type="email" id="signEmail" placeholder="Email" required>
+                <input type="password" id="signPass" placeholder="Password" required>
+                <button type="submit" class="main-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="hero" id="home">
+        <h1>Building <span>Digital</span> Mastery</h1>
+        <p>আমরা প্রদান করি সেরা মানের সফটওয়্যার এবং ওয়েব সলিউশন যা আপনার ব্যবসাকে পৌঁছে দেবে এক অনন্য উচ্চতায়।</p>
+        <a href="#services" class="main-btn" style="width: auto; padding: 15px 40px; text-decoration: none;">Explore Services</a>
+    </section>
+
+    <section class="services" id="services">
+        <h2>Our Premium Services</h2>
+        <div class="grid">
+            <div class="card"><h3>Custom Web App</h3><p>আধুনিক রিয়্যাক্ট ও জাভাস্ক্রিপ্ট দিয়ে তৈরি ডায়নামিক ওয়েবসাইট।</p></div>
+            <div class="card"><h3>Cloud Solutions</h3><p>ফায়ারবেজ এবং ক্লাউড হোস্টিং এর মাধ্যমে ডাটা সিকিউরিটি।</p></div>
+            <div class="card"><h3>UI/UX Design</h3><p>চমৎকার ইউজার ইন্টারফেস যা ক্লায়েন্টদের মুগ্ধ করবে।</p></div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 style="margin-bottom: 20px;">Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="msgName" placeholder="Your Name" required>
+            <input type="email" id="msgEmail" placeholder="Your Email" required>
+            <textarea id="msgBody" rows="5" placeholder="Project details..." style="width:100%; background:var(--dark); border:1px solid #334155; border-radius:6px; color:white; padding:12px; margin-bottom:15px;"></textarea>
+            <button type="submit" class="main-btn">Send Message</button>
+            <p id="msgStatus" style="margin-top:10px;"></p>
+        </form>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ১. ফায়ারবেজ থেকে পাওয়া আপনার Config এখানে বসান
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_ID.firebaseapp.com",
+            projectId: "YOUR_ID",
+            storageBucket: "YOUR_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // UI Helpers
+        window.showModal = (id) => document.getElementById(id).style.display = 'flex';
+        window.closeModals = () => document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+
+        // --- AUTHENTICATION ---
+        // Sign Up
+        document.getElementById('signupForm').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                await createUserWithEmailAndPassword(auth, document.getElementById('signEmail').value, document.getElementById('signPass').value);
+                alert("Account created successfully!");
+                closeModals();
+            } catch (err) { alert(err.message); }
+        };
+
+        // Login
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPass').value);
+                alert("Welcome Back!");
+                closeModals();
+            } catch (err) { alert(err.message); }
+        };
+
+        // Logout
+        document.getElementById('logoutBtn').onclick = () => signOut(auth);
+
+        // Auth Observer
+        onAuthStateChanged(auth, (user) => {
+            const guestLinks = document.querySelectorAll('.guest');
+            const userLinks = document.querySelectorAll('.user');
+            if (user) {
+                guestLinks.forEach(l => l.classList.add('hidden'));
+                userLinks.forEach(l => l.classList.remove('hidden'));
+                document.getElementById('user-info').innerText = user.email.split('@')[0];
+            } else {
+                guestLinks.forEach(l => l.classList.remove('hidden'));
+                userLinks.forEach(l => l.classList.add('hidden'));
+            }
+        });
+
+        // --- CONTACT FORM (Firestore) ---
+        document.getElementById('contactForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const status = document.getElementById('msgStatus');
+            try {
+                await addDoc(collection(db, "messages"), {
+                    name: document.getElementById('msgName').value,
+                    email: document.getElementById('msgEmail').value,
+                    message: document.getElementById('msgBody').value,
+                    timestamp: new Date()
+                });
+                status.innerText = "Message Sent Successfully!";
+                status.style.color = "#4ade80";
+                e.target.reset();
+            } catch (err) {
+                status.innerText = "Error sending message.";
+                status.style.color = "#f87171";
+            }
+        };
+    </script>
+</body>
+                  </html>
